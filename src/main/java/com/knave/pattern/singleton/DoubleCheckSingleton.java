@@ -23,6 +23,9 @@ public class DoubleCheckSingleton implements Serializable {
      */
     private volatile static DoubleCheckSingleton instance = null;
     
+    /**
+     * 防止通过反射生成对象
+     */
     private DoubleCheckSingleton() {
         if (instance != null) {
             throw new RuntimeException();
