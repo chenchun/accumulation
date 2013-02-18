@@ -15,11 +15,11 @@ import java.lang.reflect.Method;
  * 
  * @version 1.0
  */
-public class AbsoluteSingleton implements SingletonInterface {
+public class AbsoluteSingleton {
 
-    private static SingletonInterface instance = null;
+    private static AbsoluteSingleton instance = null;
 
-    public synchronized static SingletonInterface getInstance() {
+    public synchronized static AbsoluteSingleton getInstance() {
         ClassLoader myClassLoader = AbsoluteSingleton.class.getClassLoader();
         if (instance == null) {
             if (!myClassLoader.toString().startsWith("sun.")) {
@@ -28,7 +28,8 @@ public class AbsoluteSingleton implements SingletonInterface {
                     Class<?> otherClassInstance = parentClassLoader.loadClass(AbsoluteSingleton.class.getName());
                     Method getInstanceMethod = otherClassInstance.getDeclaredMethod("getInstance", new Class[] { });
                     Object otherAbsoluteSingleton = getInstanceMethod.invoke(null, new Object[] { } );
-                    return (SingletonInterface) otherAbsoluteSingleton;
+                    System.out.println(Thread.currentThread().getContextClassLoader());
+                    return (AbsoluteSingleton) otherAbsoluteSingleton;
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

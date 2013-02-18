@@ -24,14 +24,16 @@ public class ClassLoadSingletonTest {
     
     @Test
     public void test() {
-        SingletonInterface instance = AbsoluteSingleton.getInstance();
+        AbsoluteSingleton instance = (AbsoluteSingleton) AbsoluteSingleton.getInstance();
         try {
-            MyClassLoader myClassLoader = new MyClassLoader("/Users/cc3514772b/project/accumulation/target/classes");
+            DefineLoader myClassLoader = new DefineLoader("/Users/cc3514772b/project/accumulation/target/classes");
             Class<?> clazz = myClassLoader.findClass("com.knave.pattern.singleton.AbsoluteSingleton");
             Method m = clazz.getMethod("getInstance");
             Object another = m.invoke(null);
             Assert.assertTrue(another instanceof AbsoluteSingleton);
             Assert.assertTrue(another == instance);
+            AbsoluteSingleton anotherSingleton = (AbsoluteSingleton) another;
+            Assert.assertNotNull(anotherSingleton);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SecurityException e) {
@@ -45,6 +47,13 @@ public class ClassLoadSingletonTest {
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         }
+    }
+    
+    @Test
+    public void testInstanceof() {
+        Integer a = 5;
+        Object b = (Object) a;
+        Assert.assertTrue(a == b);
     }
 
 }
