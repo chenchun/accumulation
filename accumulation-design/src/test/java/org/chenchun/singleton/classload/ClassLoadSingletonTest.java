@@ -1,7 +1,19 @@
-/*
- * Copyright (c) 2010-2011 meituan.com
- * All rights reserved.
- * 
+/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.chenchun.singleton.classload;
 
@@ -14,37 +26,36 @@ import org.junit.Test;
 
 /**
  * 测试在多个类加载器环境下的单例模式
- * 
+ *
  * @author chenchun
- * @created 2012-9-24
- * 
  * @version 1.0
+ * @created 2012-9-24
  */
 public class ClassLoadSingletonTest {
 
-    @Test
-    public void test() {
-        SingletonInterface singletonInstance = AbsoluteSingleton.getInstance();
-        Assert.assertNotNull(singletonInstance);
-        
-        try {
-            MyClassLoader myClassLoader = new MyClassLoader("/Users/cc3514772b/project/accumulation/target/classes");
-            Class<?> clazz = myClassLoader.findClass("AbsoluteSingleton");
-            Method m = clazz.getMethod("getInstance");
-            Object another = m.invoke(null);
-            Assert.assertTrue(another instanceof AbsoluteSingleton);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SecurityException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        }
+  @Test
+  public void test() {
+    SingletonInterface singletonInstance = AbsoluteSingleton.getInstance();
+    Assert.assertNotNull(singletonInstance);
+
+    try {
+      MyClassLoader myClassLoader = new MyClassLoader("/Users/cc3514772b/project/accumulation/target/classes");
+      Class<?> clazz = myClassLoader.findClass("AbsoluteSingleton");
+      Method m = clazz.getMethod("getInstance");
+      Object another = m.invoke(null);
+      Assert.assertTrue(another instanceof AbsoluteSingleton);
+    } catch (ClassNotFoundException e) {
+      e.printStackTrace();
+    } catch (SecurityException e) {
+      e.printStackTrace();
+    } catch (NoSuchMethodException e) {
+      e.printStackTrace();
+    } catch (IllegalArgumentException e) {
+      e.printStackTrace();
+    } catch (IllegalAccessException e) {
+      e.printStackTrace();
+    } catch (InvocationTargetException e) {
+      e.printStackTrace();
     }
+  }
 }
