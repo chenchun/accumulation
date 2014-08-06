@@ -10,3 +10,6 @@ accumulation-design/target/
 accumulation-util/target/
 accumulation-hadoop/target/
 accumulation-leetcode/target/
+accumulation-google/target/
+accumulation-google/accumulation-google-guava/target/
+accumulation-google/accumulation-google-guice/target/

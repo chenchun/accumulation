@@ -42,5 +42,6 @@
     <module>accumulation-util</module>
     <module>accumulation-hadoop</module>
     <module>accumulation-leetcode</module>
+    <module>accumulation-google</module>
   </modules>
 </project>
