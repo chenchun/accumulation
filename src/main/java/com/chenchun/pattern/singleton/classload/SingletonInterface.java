@@ -1,4 +1,4 @@
-package com.knave.pattern.singleton.classload;
+package com.chenchun.pattern.singleton.classload;
 
 public interface SingletonInterface {
     String getValue();

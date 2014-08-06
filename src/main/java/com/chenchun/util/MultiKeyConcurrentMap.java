@@ -1,4 +1,4 @@
-package com.knave.util;
+package com.chenchun.util;
 
 import java.io.Serializable;
 import java.util.concurrent.ConcurrentHashMap;

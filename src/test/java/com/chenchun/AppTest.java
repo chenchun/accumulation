@@ -1,4 +1,4 @@
-package com.knave;
+package com.chenchun;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

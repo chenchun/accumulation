@@ -1,4 +1,4 @@
-package com.knave.pattern.singleton;
+package com.chenchun.pattern.singleton;
 
 public interface SingletonInterface {
 }

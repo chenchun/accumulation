@@ -1,4 +1,4 @@
-package com.knave.pattern.singleton.classload;
+package com.chenchun.pattern.singleton.classload;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;

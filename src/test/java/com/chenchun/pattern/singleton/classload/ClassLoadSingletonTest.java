@@ -3,7 +3,7 @@
  * All rights reserved.
  * 
  */
-package com.knave.pattern.singleton.classload;
+package com.chenchun.pattern.singleton.classload;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -29,7 +29,7 @@ public class ClassLoadSingletonTest {
         
         try {
             MyClassLoader myClassLoader = new MyClassLoader("/Users/cc3514772b/project/accumulation/target/classes");
-            Class<?> clazz = myClassLoader.findClass("com.knave.pattern.singleton.classload.AbsoluteSingleton");
+            Class<?> clazz = myClassLoader.findClass("com.chenchun.pattern.singleton.classload.AbsoluteSingleton");
             Method m = clazz.getMethod("getInstance");
             Object another = m.invoke(null);
             Assert.assertTrue(another instanceof AbsoluteSingleton);

@@ -3,7 +3,7 @@
  * All rights reserved.
  * 
  */
-package com.knave.pattern.singleton.classload;
+package com.chenchun.pattern.singleton.classload;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;

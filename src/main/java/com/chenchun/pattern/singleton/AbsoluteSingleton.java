@@ -3,7 +3,7 @@
  * All rights reserved.
  * 
  */
-package com.knave.pattern.singleton;
+package com.chenchun.pattern.singleton;
 
 import java.lang.reflect.Method;
 
