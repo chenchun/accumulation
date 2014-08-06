@@ -41,5 +41,6 @@
     <module>accumulation-design</module>
     <module>accumulation-util</module>
     <module>accumulation-hadoop</module>
+    <module>accumulation-leetcode</module>
   </modules>
 </project>
