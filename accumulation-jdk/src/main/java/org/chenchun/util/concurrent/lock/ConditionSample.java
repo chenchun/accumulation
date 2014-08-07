@@ -73,7 +73,6 @@ public class ConditionSample {
           }
 
         } catch (InterruptedException e) {
-          // TODO Auto-generated catch block
           e.printStackTrace();
         } finally {
           lock.unlock();
@@ -122,7 +121,6 @@ public class ConditionSample {
           try {
             emptyCondtion.await();
           } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
           }
 
