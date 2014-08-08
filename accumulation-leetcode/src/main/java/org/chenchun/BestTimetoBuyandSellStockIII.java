@@ -19,25 +19,29 @@ package org.chenchun;
 
 /**
  * O(n) time and O(n) space
- *
- * @see org.chenchun.BestTimetoBuyandSellStockIII for O(n) time and O(1) space
- * way
  */
-public class BestTimetoBuyandSellStock {
+public class BestTimetoBuyandSellStockIII {
   public int maxProfit(int[] prices) {
     if (prices == null || prices.length <= 1) {
       return 0;
     }
     int l = prices.length;
-    int[] min = new int[l], max = new int[prices.length];
+    int[] historyProfit = new int[l];
+    int lowest = prices[0], highest = prices[l-1];
+    int maxProfit = 0;
     for (int i = 0; i < l; i++) {
-      min[i] = i - 1 >= 0 ? Math.min(min[i - 1], prices[i]) : prices[i];
-      max[l - 1 - i] = i - 1 >= 0 ? Math.max(max[l - i], prices[l - 1 - i]) : prices[l - 1 - i];
+      lowest = Math.min(lowest, prices[i]);
+      historyProfit[i] = i > 0? Math.max(historyProfit[i-1], prices[i] - lowest) : 0;
     }
-    int ret = max[0] - min[0];
-    for (int i = 1; i < l; i++) {
-      ret = Math.max(max[i] - min[i], ret);
+    for (int i = l-1; i >= 0; i--) {
+      highest = Math.max(highest, prices[i]);
+      maxProfit = Math.max(maxProfit, highest - prices[i] + (i - 1 > 0? historyProfit[i-1] : 0));
     }
-    return ret;
+    return maxProfit;
+  }
+
+  public static void main(String[] args) {
+    BestTimetoBuyandSellStockIII b = new BestTimetoBuyandSellStockIII();
+    System.out.println(b.maxProfit(new int[]{1,2,4,2,5,7,2,4,9,0}));
   }
 }
