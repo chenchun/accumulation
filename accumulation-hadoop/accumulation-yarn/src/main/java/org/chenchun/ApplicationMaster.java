@@ -91,7 +91,7 @@ public class ApplicationMaster {
             Collections.singletonList(params +
                 " 1>" + ApplicationConstants.LOG_DIR_EXPANSION_VAR + "/stdout" +
                 " 2>" + ApplicationConstants.LOG_DIR_EXPANSION_VAR + "/stderr"));
-        System.out.println("Launching container " + container.getId());
+        System.out.println("Launching container " + container.getId() + " on " + container.getNodeId());
         nmClient.startContainer(container, ctx);
       }
       for (ContainerStatus status : response.getCompletedContainersStatuses()) {
