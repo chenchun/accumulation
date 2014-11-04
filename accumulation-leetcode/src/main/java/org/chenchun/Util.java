@@ -24,10 +24,10 @@ import java.util.List;
  *
  */
 public class Util {
-  public static void print(Collection<List<Integer>> collections) {
-    for (Collection<Integer> c : collections) {
-      for (Integer i : c) {
-        System.out.print(i);
+  public static <T> void print(Collection<List<T>> collections) {
+    for (Collection<T> c : collections) {
+      for (T t : c) {
+        System.out.print(t);
         System.out.print(" ");
       }
       System.out.println();

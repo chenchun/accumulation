@@ -78,8 +78,8 @@ public class WordLadder {
 //    Set<String> s = new HashSet<String>(Arrays.asList(strs));
 //    System.out.println(w.ladderLength("kiss", "tusk", s));
 
-      String[] strs = new String[] {"hot","dog"};
+      String[] strs = new String[] {"hot","dot","dog","lot","log"};
       Set<String> s = new HashSet<String>(Arrays.asList(strs));
-      System.out.println(w.ladderLength("hot", "dog", s));
+      System.out.println(w.ladderLength("hit", "cog", s));
   }
 }
