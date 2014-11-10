@@ -32,7 +32,7 @@ public class PalindromePartitioning {
     }
     for (int i = 1; i < s.length(); i++) {
       for (int j = 0; j + i < s.length(); j++) {
-        if (s.charAt(j) == s.charAt(j+i) && isPalindrome(s, j+1, j+i-1)) {
+        if (s.charAt(j) == s.charAt(j+i) && (j+1 >= j+i-1 || dp[j+1][j+i-1])) {
           dp[j][j+i] = true;
         }
       }
@@ -53,16 +53,5 @@ public class PalindromePartitioning {
         dfs(s, i+1, endIndex, ret, copy, dp);
       }
     }
-  }
-
-  private boolean isPalindrome(String s, int beginIndex, int endIndex) {
-    while (beginIndex < endIndex) {
-      if (s.charAt(beginIndex) != s.charAt(endIndex)) {
-        return false;
-      }
-      beginIndex++;
-      endIndex--;
-    }
-    return true;
   }
 }
