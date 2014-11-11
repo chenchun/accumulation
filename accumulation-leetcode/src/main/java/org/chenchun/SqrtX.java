@@ -18,23 +18,26 @@
 package org.chenchun;
 
 public class SqrtX {
-  public int sqrt(float x) {
-    float z = 1;
-    int n = 10;
-    while (n-->0) {
+  public int sqrt(int x) {
+    double z = 3;
+    int n = 0;
+    while (n != (int) Math.floor(z)) {
+      n = (int) Math.floor(z);
       z = z - (z*z - x)/2/z;
     }
-    return Math.round(z);
+    return n;
   }
 
   public static void main(String[] args) {
     SqrtX s = new SqrtX();
+    System.out.println(s.sqrt(0));
+    System.out.println(s.sqrt(3));
     System.out.println(s.sqrt(4));
     System.out.println(s.sqrt(5));
     System.out.println(s.sqrt(6));
     System.out.println(s.sqrt(7));
     System.out.println(s.sqrt(8));
     System.out.println(s.sqrt(9));
-    System.out.println(s.sqrt(0));
+    System.out.println(s.sqrt(2147395599));
   }
 }
