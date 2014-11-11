@@ -40,14 +40,16 @@ import java.util.Collections;
  */
 public class ApplicationMaster {
 
-  public static void main(String[] args) throws IOException, YarnException, InterruptedException {
+  public static void main(String[] args) throws IOException, YarnException,
+      InterruptedException {
     final String params = args[0];
     final int containerNum = Integer.valueOf(args[1]);
 
     // Initialize clients to ResourceManager and NodeManagers
     Configuration conf = new YarnConfiguration();
 
-    AMRMClient<AMRMClient.ContainerRequest> rmClient = AMRMClient.createAMRMClient();
+    AMRMClient<AMRMClient.ContainerRequest> rmClient = AMRMClient
+        .createAMRMClient();
     rmClient.init(conf);
     rmClient.start();
 
@@ -71,7 +73,8 @@ public class ApplicationMaster {
 
     // Make container requests to ResourceManager
     for (int i = 0; i < containerNum; ++i) {
-      AMRMClient.ContainerRequest containerAsk = new AMRMClient.ContainerRequest(capability, null, null, priority);
+      AMRMClient.ContainerRequest containerAsk = new AMRMClient.ContainerRequest(
+          capability, null, null, priority);
       System.out.println("Making res-req " + i);
       rmClient.addContainerRequest(containerAsk);
     }
@@ -85,13 +88,14 @@ public class ApplicationMaster {
           "allocate " + response.getAllocatedContainers().size() + "contains");
       for (Container container : response.getAllocatedContainers()) {
         // Launch container by create ContainerLaunchContext
-        ContainerLaunchContext ctx =
-            Records.newRecord(ContainerLaunchContext.class);
-        ctx.setCommands(
-            Collections.singletonList(params +
+        ContainerLaunchContext ctx = Records
+            .newRecord(ContainerLaunchContext.class);
+        ctx.setCommands(Collections.singletonList(params +
                 " 1>" + ApplicationConstants.LOG_DIR_EXPANSION_VAR + "/stdout" +
                 " 2>" + ApplicationConstants.LOG_DIR_EXPANSION_VAR + "/stderr"));
-        System.out.println("Launching container " + container.getId() + " on " + container.getNodeId());
+        System.out.println(
+            "Launching container " + container.getId() + " on " + container
+                .getNodeId());
         nmClient.startContainer(container, ctx);
       }
       for (ContainerStatus status : response.getCompletedContainersStatuses()) {
@@ -103,7 +107,7 @@ public class ApplicationMaster {
     System.out.println("Unregister ApplicationMaster");
 
     // Un-register with ResourceManager
-    rmClient.unregisterApplicationMaster(
-        FinalApplicationStatus.SUCCEEDED, "", "");
+    rmClient
+        .unregisterApplicationMaster(FinalApplicationStatus.SUCCEEDED, "", "");
   }
 }

@@ -54,8 +54,8 @@ public class AppClient {
       String jarPath) throws IOException, YarnException, InterruptedException {
     conf = new Configuration();
     YarnConfiguration yarnConf = new YarnConfiguration(conf);
-    InetSocketAddress rmAddress =
-        NetUtils.createSocketAddr(yarnConf.get(YarnConfiguration.RM_ADDRESS,
+    InetSocketAddress rmAddress = NetUtils.createSocketAddr(yarnConf
+        .get(YarnConfiguration.RM_ADDRESS,
             YarnConfiguration.DEFAULT_RM_ADDRESS));
     LOG.info("Connecting to ResourceManager at " + rmAddress);
     applicationClientProtocol = ClientRMProxy
@@ -70,17 +70,17 @@ public class AppClient {
     capability.setVirtualCores(1);
 
     // Create a new ApplicationSubmissionContext
-    ApplicationSubmissionContext appContext =
-        Records.newRecord(ApplicationSubmissionContext.class);
+    ApplicationSubmissionContext appContext = Records
+        .newRecord(ApplicationSubmissionContext.class);
     appContext.setApplicationId(applicationId);
     appContext.setApplicationName(appName);
     appContext.setResource(capability);
-    appContext.setAMContainerSpec(getContainerLaunchContext(new Path
-        (jarPath), params, containerNum));
+    appContext.setAMContainerSpec(
+        getContainerLaunchContext(new Path(jarPath), params, containerNum));
 
     // Create the request to send to the ApplicationsManager
-    SubmitApplicationRequest appRequest =
-        Records.newRecord(SubmitApplicationRequest.class);
+    SubmitApplicationRequest appRequest = Records
+        .newRecord(SubmitApplicationRequest.class);
     appRequest.setApplicationSubmissionContext(appContext);
 
     // Submit the application to the ApplicationsManager
@@ -96,25 +96,25 @@ public class AppClient {
       appState = getYarnApplicationState();
     }
 
-    System.out.println(
-        "Application " + applicationId + " finished with" +
-            " state " + appState);
+    System.out.println("Application " + applicationId + " finished with" +
+        " state " + appState);
   }
 
-  private ApplicationId getNewApplicationId() throws IOException, YarnException {
+  private ApplicationId getNewApplicationId() throws IOException,
+      YarnException {
     // Get a new appId from RM
-    GetNewApplicationRequest request =
-        Records.newRecord(GetNewApplicationRequest.class);
-    GetNewApplicationResponse response =
-        applicationClientProtocol.getNewApplication(request);
+    GetNewApplicationRequest request = Records
+        .newRecord(GetNewApplicationRequest.class);
+    GetNewApplicationResponse response = applicationClientProtocol
+        .getNewApplication(request);
     return response.getApplicationId();
   }
 
   private ContainerLaunchContext getContainerLaunchContext(Path jarPath,
       String params, int containerNum) throws IOException {
     // Create a new container launch context for the AM's container
-    ContainerLaunchContext amContainer =
-        Records.newRecord(ContainerLaunchContext.class);
+    ContainerLaunchContext amContainer = Records
+        .newRecord(ContainerLaunchContext.class);
 
     // Lets assume the jar we need for our ApplicationMaster is available in
     // HDFS at a certain known path to us and we want to make it available to
@@ -142,19 +142,19 @@ public class AppClient {
     // The ApplicationMaster, if needs to reference the jar file, would
     // need to use the symlink filename.
     // Set the local resources into the launch context
-    amContainer.setLocalResources(Collections.singletonMap("AppMaster.jar",
-        amJarLocalResource));
+    amContainer.setLocalResources(
+        Collections.singletonMap("AppMaster.jar", amJarLocalResource));
 
     amContainer.setEnvironment(setupAppMasterEnv());
 
     // Set the command array into the container spec
-    amContainer.setCommands(Collections.singletonList(
-        "/data/jdk1.6.0_24/bin/java" +
-        " " + ApplicationMaster.class.getName() +
-        " " + params +
-        " " + containerNum +
-        " 1>" + ApplicationConstants.LOG_DIR_EXPANSION_VAR + "/stdout" +
-        " 2>" + ApplicationConstants.LOG_DIR_EXPANSION_VAR + "/stderr"));
+    amContainer
+        .setCommands(Collections.singletonList("/data/jdk1.6.0_24/bin/java" +
+            " " + ApplicationMaster.class.getName() +
+            " " + params +
+            " " + containerNum +
+            " 1>" + ApplicationConstants.LOG_DIR_EXPANSION_VAR + "/stdout" +
+            " 2>" + ApplicationConstants.LOG_DIR_EXPANSION_VAR + "/stderr"));
 
     return amContainer;
   }
@@ -168,11 +168,11 @@ public class AppClient {
     // "." to the path.
     // By default, all the hadoop specific classpaths will already be available
     // in $CLASSPATH, so we should be careful not to overwrite it.
-    for (String c : conf.getStrings(
-        YarnConfiguration.YARN_APPLICATION_CLASSPATH,
-        YarnConfiguration.DEFAULT_YARN_APPLICATION_CLASSPATH)) {
-      Apps.addToEnvironment(appMasterEnv, ApplicationConstants.Environment
-          .CLASSPATH.name(), c.trim());
+    for (String c : conf
+        .getStrings(YarnConfiguration.YARN_APPLICATION_CLASSPATH,
+            YarnConfiguration.DEFAULT_YARN_APPLICATION_CLASSPATH)) {
+      Apps.addToEnvironment(appMasterEnv,
+          ApplicationConstants.Environment.CLASSPATH.name(), c.trim());
     }
     Apps.addToEnvironment(appMasterEnv,
         ApplicationConstants.Environment.CLASSPATH.name(),
@@ -180,13 +180,13 @@ public class AppClient {
     return appMasterEnv;
   }
 
-  private YarnApplicationState getYarnApplicationState()
-      throws IOException, YarnException {
-    GetApplicationReportRequest reportRequest =
-        Records.newRecord(GetApplicationReportRequest.class);
+  private YarnApplicationState getYarnApplicationState() throws IOException,
+      YarnException {
+    GetApplicationReportRequest reportRequest = Records
+        .newRecord(GetApplicationReportRequest.class);
     reportRequest.setApplicationId(applicationId);
-    GetApplicationReportResponse reportResponse =
-        applicationClientProtocol.getApplicationReport(reportRequest);
+    GetApplicationReportResponse reportResponse = applicationClientProtocol
+        .getApplicationReport(reportRequest);
     return reportResponse.getApplicationReport().getYarnApplicationState();
   }
 
@@ -194,7 +194,8 @@ public class AppClient {
    * bin/hadoop fs -copyFromLocal accumulation-yarn-1.0.jar /tmp/accumulation-yarn-1.0.jar
    * bin/hadoop jar accumulation-yarn-1.0.jar org.chenchun.AppClient /bin/date 4 hdfs://host:port/tmp/accumulation-yarn-1.0.jar
    */
-  public static void main(String[] args) throws IOException, YarnException, InterruptedException {
+  public static void main(String[] args) throws IOException, YarnException,
+      InterruptedException {
 
     String appName = "Hello Yarn";
     String params = args[0];

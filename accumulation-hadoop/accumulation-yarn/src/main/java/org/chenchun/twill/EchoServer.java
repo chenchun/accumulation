@@ -32,7 +32,7 @@ import java.util.concurrent.ExecutionException;
 
 /**
  * twill echo server, successfully running against latest hadoop trunk version cluster
- *
+ * <p/>
  * just run in idea with config:
  * 1. add program arguments (zookeeper server) : localhost:2181
  * 2. add HADOOP_HOME env
@@ -62,15 +62,13 @@ public class EchoServer extends AbstractTwillRunnable {
 
     String zkStr = args[0];
 
-    final TwillRunnerService twillRunner =
-        new YarnTwillRunnerService(
-            new YarnConfiguration(), zkStr);
+    final TwillRunnerService twillRunner = new YarnTwillRunnerService(
+        new YarnConfiguration(), zkStr);
     twillRunner.startAndWait();
 
-    final TwillController controller =
-        twillRunner.prepare(new EchoServer())
-            .addLogHandler(new PrinterLogHandler(new PrintWriter(System.out, true)))
-            .start();
+    final TwillController controller = twillRunner.prepare(new EchoServer())
+        .addLogHandler(new PrinterLogHandler(new PrintWriter(System.out, true)))
+        .start();
 
     Runtime.getRuntime().addShutdownHook(new Thread() {
       @Override

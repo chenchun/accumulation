@@ -38,22 +38,19 @@ import java.util.concurrent.ExecutionException;
  */
 public class TwillMultiTask implements TwillApplication {
 
-  public static final Logger LOG = LoggerFactory.getLogger(TwillMultiTask.class);
+  public static final Logger LOG = LoggerFactory
+      .getLogger(TwillMultiTask.class);
 
   @Override
   public TwillSpecification configure() {
     return TwillSpecification.Builder.with()
-        .setName(TwillMultiTask.class.getSimpleName())
-        .withRunnable()
+        .setName(TwillMultiTask.class.getSimpleName()).withRunnable()
         .add(RunFor1Sec.class.getSimpleName(), new RunFor1Sec(),
-            ResourceSpecification.Builder.with()
-                .setVirtualCores(1)
+            ResourceSpecification.Builder.with().setVirtualCores(1)
                 .setMemory(128, ResourceSpecification.SizeUnit.MEGA)
-                .setInstances(3)
-                .build()).noLocalFiles()
+                .setInstances(3).build()).noLocalFiles()
         .add(RunForever.class.getSimpleName(), new RunForever()).noLocalFiles()
-        .anyOrder()
-        .build();
+        .anyOrder().build();
   }
 
   public class RunFor1Sec extends AbstractTwillRunnable {
@@ -86,15 +83,15 @@ public class TwillMultiTask implements TwillApplication {
     }
   }
 
-  public static void main(String[] args) throws ExecutionException, InterruptedException {
+  public static void main(String[] args) throws ExecutionException,
+      InterruptedException {
 
     String zkStr = "localhost:2181";
-    final TwillRunnerService twillRunner =
-        new YarnTwillRunnerService(new YarnConfiguration(), zkStr);
+    final TwillRunnerService twillRunner = new YarnTwillRunnerService(
+        new YarnConfiguration(), zkStr);
     twillRunner.startAndWait();
 
-    final TwillController controller =
-        twillRunner.prepare(new TwillMultiTask())
+    final TwillController controller = twillRunner.prepare(new TwillMultiTask())
         .addLogHandler(new PrinterLogHandler(new PrintWriter(System.out, true)))
         .start();
 
