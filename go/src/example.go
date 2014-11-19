@@ -6,6 +6,7 @@ import (
 	"math"
 	"math/rand"
 	"math/cmplx"
+	"runtime"
 )
 
 var x int
@@ -275,7 +276,57 @@ func main() {
 	for i:=0; i<10; i++ {
 		fmt.Println(pos(i), neg(-2*i))
 	}
+
+	//47 Switch
+	title("47 Switch")
+	switch os := runtime.GOOS; os {
+	case "darwin":
+		fmt.Println("OS X.")
+	case "linux":
+		fmt.Println("Linux.")
+	default:
+		fmt.Printf("%s.", os)
+	}
+
+	//48 Switch evaluation order
+	title("48 Switch evaluation order")
+	fmt.Println("When's Saturday?")
+	today := time.Now().Weekday()
+	switch time.Saturday {
+	case today + 0:
+		fmt.Println("Today.")
+	case today + 1:
+		fmt.Println("Tomorrow.")
+	case today + 2:
+		fmt.Println("In two days.")
+	default:
+		fmt.Println("Too far away.")
+	}
+
+	//49 Switch with no condition
+	title("49 Switch with no condition")
+	switch t := time.Now(); {
+	case t.Hour() < 12:
+		fmt.Println("Good morning!")
+	case t.Hour() < 17:
+		fmt.Println("Good afternoon.")
+	default:
+		fmt.Println("Good evening.")
+	}
+
+	//52 Methods
+	title("52 Methods")
+
 }
+
+//---------------------------52--------------------------
+type Vertex struct {
+	X, Y float64
+}
+func (v *Vertex) Abs() float64 {
+	return math.Sqrt(v.X*v.X + v.Y*v.Y)
+}
+//---------------------------52--------------------------
 
 func adder() func(int) int {
 	sum := 0
