@@ -22,14 +22,6 @@ import java.util.List;
 import java.util.Stack;
 
 public class BinaryTreeInorderTraversal {
-
-  public class TreeNode {
-    int val;
-    TreeNode left;
-    TreeNode right;
-    TreeNode(int x) { val = x; }
-  }
-
   public List<Integer> inorderTraversal(TreeNode root) {
     List<Integer> ret = new ArrayList<>();
     Stack<TreeNode> s = new Stack<>();

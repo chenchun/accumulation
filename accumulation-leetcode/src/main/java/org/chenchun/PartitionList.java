@@ -18,17 +18,6 @@
 package org.chenchun;
 
 public class PartitionList {
-
-   public class ListNode {
-     int val;
-     ListNode next;
-
-     ListNode(int x) {
-       val = x;
-       next = null;
-     }
-   }
-
    public ListNode partition(ListNode head, int x) {
     if (head == null) {
       return null;

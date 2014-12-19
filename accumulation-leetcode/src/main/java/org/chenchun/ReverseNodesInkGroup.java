@@ -17,13 +17,6 @@
  */
 package org.chenchun;
 
-/**
- * TODO 在这里编写类的功能描述
- *
- * @author chenchun
- * @version 1.0
- * @created 2014-11-06
- */
 public class ReverseNodesInkGroup {
 
   public static class ListNode {

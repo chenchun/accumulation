@@ -17,28 +17,31 @@
  */
 package org.chenchun;
 
-public class InsertionSortList {
-  public ListNode insertionSortList(ListNode head) {
-    ListNode root = new ListNode(0);
-    while (head != null) {
-      ListNode n = root;
-      while (n.next != null) {
-        if (n.next.val < head.val) {
-          n = n.next;
-        } else {
-          ListNode temp = head;
-          head = head.next;
-          temp.next = n.next;
-          n.next = temp;
-          break;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Stack;
+
+public class BinaryTreePostorderTraversal {
+  public List<Integer> postorderTraversal(TreeNode root) {
+    List<Integer> ret = new ArrayList<>();
+    if (root != null) {
+      Stack<TreeNode> s = new Stack<>();
+      s.push(root);
+      Stack<Integer> res = new Stack<>();
+      while (!s.isEmpty()) {
+        TreeNode n = s.pop();
+        res.push(n.val);
+        if (n.left != null) {
+          s.push(n.left);
+        }
+        if (n.right != null) {
+          s.push(n.right);
         }
       }
-      if (n.next == null) {
-        n.next = head;
-        head = head.next;
-        n.next.next = null;
+      while (!res.isEmpty()) {
+        ret.add(res.pop());
       }
     }
-    return root.next;
+    return ret;
   }
 }

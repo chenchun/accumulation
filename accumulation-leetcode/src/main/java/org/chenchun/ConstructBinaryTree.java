@@ -18,13 +18,6 @@
 package org.chenchun;
 
 public class ConstructBinaryTree {
-
-  public class TreeNode {
-    int val;
-    TreeNode left;
-    TreeNode right;
-    TreeNode(int x) { val = x; }
-  }
   public TreeNode buildTree(int[] preorder, int[] inorder) {
     if (preorder == null || inorder == null || preorder.length != inorder.length || preorder.length == 0) {
       return null;
