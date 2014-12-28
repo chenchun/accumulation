@@ -29,15 +29,18 @@ public class BestTimetoBuyandSellStock {
       return 0;
     }
     int l = prices.length;
-    int[] min = new int[l], max = new int[prices.length];
-    for (int i = 0; i < l; i++) {
-      min[i] = i - 1 >= 0 ? Math.min(min[i - 1], prices[i]) : prices[i];
-      max[l - 1 - i] = i - 1 >= 0 ? Math.max(max[l - i], prices[l - 1 - i]) : prices[l - 1 - i];
-    }
-    int ret = max[0] - min[0];
+    int[] lowestBuy = new int[l];
+    lowestBuy[0] = prices[0];
+    int[] highestSell = new int[l];
+    highestSell[l-1] = prices[l-1];
     for (int i = 1; i < l; i++) {
-      ret = Math.max(max[i] - min[i], ret);
+      lowestBuy[i] = Math.min(lowestBuy[i-1], prices[i]);
+      highestSell[l-i-1] = Math.max(highestSell[l-i], prices[l-i-1]);
     }
-    return ret;
+    int max = 0;
+    for (int i = 0; i < l; i++) {
+      max = Math.max(highestSell[i] - lowestBuy[i], max);
+    }
+    return max;
   }
 }
