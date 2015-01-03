@@ -17,41 +17,44 @@
  */
 package org.chenchun;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class SearchForARange {
   public int[] searchRange(int[] A, int target) {
-    int l = 0, r = A.length - 1, min = -1, max = -1, temp = A.length - 1;
-    while (l <= r) {
-      int mid = (l + r)/2;
-      if (A[mid] == target) {
-        if (min == -1) {
-          min = mid;
-          max = mid;
-          temp = r;
-        } else {
-          min = Math.min(min, mid);
-        }
-        r = mid - 1;
-      } else if (A[mid] > target) {
-        r = mid - 1;
-      } else {
-        l = mid + 1;
-      }
+    if (A == null || A.length == 0) {
+      return new int[]{-1, -1};
     }
-    if (max != -1) {
-      l = max + 1;
-      r = temp;
-      while (l <= r) {
-        int mid = (l + r)/2;
+    Queue<int[]> queue = new LinkedList<>();
+    queue.add(new int[]{0, A.length-1});
+    Integer begin = null, end = null;
+    while (!queue.isEmpty()) {
+      int[] arr = queue.poll();
+      int left = arr[0], right = arr[1];
+      while (left <= right) {
+        int mid = (left+right)/2;
         if (A[mid] == target) {
-          max = Math.max(max, mid);
-          l = mid + 1;
+          if (begin == null) {
+            begin = mid;
+            end = mid;
+            queue.add(new int[]{mid+1, right});
+            right = mid-1;
+          } else {
+            if (mid < begin) {
+              begin = mid;
+              right = mid-1;
+            } else if (mid > end) {
+              end = mid;
+              left = mid+1;
+            }
+          }
         } else if (A[mid] > target) {
-          r = mid - 1;
+          right = mid-1;
         } else {
-          l = mid + 1;
+          left = mid+1;
         }
       }
     }
-    return new int[] {min, max};
+    return begin == null? new int[]{-1, -1} : new int[]{begin, end};
   }
 }
