@@ -22,47 +22,27 @@ public class SearchInRotatedSortedArrayII {
     if (A == null || A.length == 0) {
       return false;
     }
-    return search(A, 0, A.length - 1, target);
-  }
-
-  public boolean search(int[] A, int left, int right, int target) {
-    while (left < right) {
-      if (A[left] < A[right] && (target < A[left] || target > A[right])) {
-        return false;
-      }
-      if (A[left] == target || A[right] == target) {
-        return true;
-      }
-      if (left == right - 1) {
-        return A[left] == target || A[right] == target;
-      }
-      int mid = (left + right) / 2;
+    int left = 0, right = A.length-1;
+    while (left <= right) {
+      int mid = (left+right)/2;
       if (A[mid] == target) {
         return true;
-      }
-      if (A[mid] == A[left] && A[mid] == A[right]) {
-        return search(A, left + 1, mid - 1, target) || search(A, mid + 1, right - 1, target);
-      }
-      if (A[mid] > A[left]) {
-        if (target > A[left] && target < A[mid]) {
-          left = left + 1;
-          right = mid - 1;
-        } else {
-          left = mid + 1;
-        }
-      } else if (A[mid] == A[left]) {
-        left = mid + 1;
       } else if (A[mid] < A[right]) {
-        if (target > A[mid] && target < A[right]) {
-          left = mid + 1;
-          right = right - 1;
+        if (A[mid] < target && target <= A[right]) {
+          left = mid+1;
         } else {
-          right = mid - 1;
+          right = mid-1;
         }
-      } else if (A[mid] == A[right]) {
-        right = mid - 1;
+      } else if (A[mid] > A[right]) {
+        if (A[left] <= target && target < A[mid]) {
+          right = mid-1;
+        } else {
+          left = mid+1;
+        }
+      } else {
+        right--;
       }
     }
-    return left == right && A[left] == target;
+    return false;
   }
 }
