@@ -36,33 +36,17 @@ public class SearchInRotatedSortedArray {
       int mid = (left+right)/2;
       if (A[mid] == target) {
         return mid;
-      } else if (A[mid] < target) {
-        if (A[left] < A[right]) {
+      } else if (A[mid] < A[right]) {
+        if (A[mid] < target && target < A[right]) {
           left = mid+1;
         } else {
-          if (A[mid] > A[right]) {
-            left = mid+1;
-          } else {
-            if (target < A[right]) {
-              left = mid+1;
-            } else {
-              right = mid-1;
-            }
-          }
+          right = mid-1;
         }
-      } else if (A[mid] > target) {
-        if (A[left] < A[right]) {
+      } else {
+        if (A[left] < target && target < A[mid]) {
           right = mid-1;
         } else {
-          if (A[mid] < A[right]) {
-            right = mid-1;
-          } else {
-            if (target < A[right]) {
-              left = mid+1;
-            } else {
-              right = mid-1;
-            }
-          }
+          left = mid+1;
         }
       }
     }
