@@ -26,23 +26,20 @@ public class FindMinimumInRotatedSortedArray {
       return 0;
     }
     int left = 0, right = num.length - 1;
-    while (left < right) {
-      if (num[left] < num[right]) {
-        return num[left];
-      }
-      if (right == left + 1) {
-        return Math.min(num[left], num[right]);
-      }
-      int mid = (left + right) / 2;
-      if (num[mid] < num[left]) {
-        right = mid;
-        left = left + 1;
-      } else if (num[mid] > num[right]) {
-        left = mid + 1;
-      } else {
+    int min = num[0];
+    while (left <= right) {
+      if (num[left] <= num[right]) {
+        min = Math.min(num[left], min);
         break;
       }
+      int mid = (left+right)/2;
+      if (num[mid] < num[left]) {
+        min = Math.min(num[mid], min);
+        right = mid-1;
+      } else {
+        left = mid+1;
+      }
     }
-    return num[left];
+    return min;
   }
 }
