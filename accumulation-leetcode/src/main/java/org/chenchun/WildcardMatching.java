@@ -19,62 +19,32 @@ package org.chenchun;
 
 public class WildcardMatching {
   public boolean isMatch(String s, String p) {
-    if (s == null || p == null || (p.length() == 0 && s.length() != 0)) {
+    if (s == null || p == null) {
       return false;
     }
-    if (p.length() == 0 && s.length() == 0) {
-      return true;
-    }
-    boolean dp[][] = new boolean[s.length()][p.length()];
-    int j = p.length()-1, i = s.length()-1;
-    while (j >= 0) {
-      if (i < 0) {
-        break;
-      }
-      char pj = p.charAt(j), si = s.charAt(i);
-      if (pj == '*') {
-        boolean match = i == s.length()-1;
-        for (int k = i+1; k < s.length(); k++) {
-          if (dp[k][j+1]) {
-            match = true;
-            break;
-          }
-        }
-        if (match) {
-          for (int k = 0; k <= i; k++) {
-            dp[k][j] = true;
-          }
-        }
-      }
-      if (pj == '?' || si == pj) {
-        if (j == p.length()-1 || i == s.length()-1) {
-          dp[i][j] = true;
-        } else if (dp[i+1][j+1]) {
-          dp[i][j] = true;
-        }
-      }
-      i--;
-      j--;
-    }
-    if (j >= 0) {
-      boolean match = false;
-      for (int k = 0; k < s.length(); k++) {
-        if (dp[k][j+1]) {
-          match = true;
-        }
-      }
-      if (!match) {
-        return false;
-      }
-      while (j >= 0) {
-        if (p.charAt(j) != '*') {
+    int is = 0, ip = 0;
+    int star = -1, ss = -1;
+    while (is < s.length()) {
+      char cs = s.charAt(is);
+      if (ip < p.length() && p.charAt(ip) == '*') {
+        star = ++ip;
+        ss = is;
+      } else if (ip < p.length() && (p.charAt(ip) == '?' || p.charAt(ip) == cs)) {
+        ip++;
+        is++;
+      } else {
+        if (star != -1) {
+          is = ++ss;
+          ip = star;
+        } else {
           return false;
         }
-        j--;
       }
-      return true;
     }
-    return dp[0][0];
+    while (ip < p.length() && p.charAt(ip) == '*') {
+      ip++;
+    }
+    return ip == p.length() && is == s.length();
   }
 
   public static void main(String[] args) {
