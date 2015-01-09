@@ -19,25 +19,24 @@ package org.chenchun;
 
 public class Pow {
   public double pow(double x, int n) {
-    if (n == 0 || x == 1) {
+    if (n == 0) {
       return 1;
     }
-    if (x == -1) {
-      return n % 2 == 0? 1 : -1;
-    }
     if (n < 0) {
-      x = 1/x;
       n = -n;
+      x = 1/x;
     }
-    double ret = 1, m = 1;
-    for (int i = 0; ; i++) {
-      m = m == 1? x : m * m;
-      if (n == 1) {
-        ret *= m;
-        break;
+    boolean first = true;
+    double ret = 1, powx = 1;
+    while (n > 0) {
+      if (first) {
+        powx *= x;
+        first = false;
+      } else {
+        powx *= powx;
       }
       if (n % 2 == 1) {
-        ret *= m;
+        ret *= powx;
       }
       n /= 2;
     }
