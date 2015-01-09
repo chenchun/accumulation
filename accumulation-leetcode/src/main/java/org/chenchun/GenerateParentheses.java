@@ -26,29 +26,24 @@ import java.util.Stack;
 public class GenerateParentheses {
   public List<String> generateParenthesis(int n) {
     Set<String> ret = new HashSet<String>();
-    generateParenthesis(n, ret, new Stack<String>(), "");
+    generateParenthesis(n, 0, ret, "");
     return new ArrayList<String>(ret);
   }
 
-  public void generateParenthesis(int n, Set<String> set, Stack<String> stack, String str) {
+  public void generateParenthesis(int n, int rp, Set<String> set, String str) {
     if (n == 0) {
-      while (!stack.isEmpty()) {
-        str = str + stack.pop();
+      while (rp-- > 0) {
+        str += ")";
       }
       set.add(str);
     } else {
-      n--;
-      str = str + "(";
-      Stack<String> s1 = (Stack<String>) stack.clone();
-      s1.push(")");
-      generateParenthesis(n, set, s1, str);
-      str = new String(str.getBytes()) + ")";
-      Stack<String> s2 = (Stack<String>) stack.clone();
-      generateParenthesis(n, set, s2, str);
-      while (!stack.isEmpty()) {
-        str = new String(str.getBytes()) + stack.pop();
-        Stack<String> stk = (Stack<String>) stack.clone();
-        generateParenthesis(n, set, stk, str);
+      if (n > 0) {
+        String newStr = str+"(";
+        generateParenthesis(n-1, rp+1, set, newStr);
+      }
+      if (rp > 0) {
+        String newStr = str+")";
+        generateParenthesis(n, rp-1, set, newStr);
       }
     }
   }
