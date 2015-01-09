@@ -43,25 +43,24 @@ public class InsertInterval {
     if (intervals == null || newInterval == null) {
       return intervals;
     }
-
-    if (intervals.size() == 0) {
-      intervals.add(newInterval);
-      return intervals;
-    }
-
     ListIterator<Interval> it = intervals.listIterator();
     while (it.hasNext()) {
-      Interval tmpInterval = it.next();
-      if (newInterval.end < tmpInterval.start) {
+      Interval itvl = it.next();
+      if (newInterval.end < itvl.start) {
         it.previous();
         it.add(newInterval);
         return intervals;
-      } else {
-        if (tmpInterval.end >= newInterval.start) {
-          newInterval.start = Math.min(tmpInterval.start, newInterval.start);
-          newInterval.end = Math.max(tmpInterval.end, newInterval.end);
-          it.remove();
+      } else if (newInterval.start <= itvl.end) {
+        itvl.start = Math.min(itvl.start, newInterval.start);
+        itvl.end = Math.max(itvl.end, newInterval.end);
+        while (it.hasNext()) {
+          Interval next = it.next();
+          if (next.start <= itvl.end) {
+            itvl.end = Math.max(itvl.end, next.end);
+            it.remove();
+          }
         }
+        return intervals;
       }
     }
     intervals.add(newInterval);
