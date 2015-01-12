@@ -21,29 +21,26 @@ public class Candy {
   public int candy(int[] ratings) {
     if (ratings == null || ratings.length == 0) {
       return 0;
-    } else if (ratings.length == 1) {
-      return 1;
     }
-    int num = ratings.length;
-    int[] candy = new int[num];
-    for (int i = 0; i < num; i++) {
+    int l = ratings.length;
+    int[] candys = new int[l];
+    for (int i = 0; i < l; i++) {
       if (i > 0 && ratings[i] > ratings[i-1]) {
-        candy[i] = candy[i-1] + 1;
+        candys[i] = candys[i-1]+1;
       } else {
-        candy[i] = 1;
+        candys[i] = 1;
       }
     }
-    for (int i = num-1; i >= 0; i--) {
-      if (i < num-1 && ratings[i] > ratings[i+1]) {
-        candy[i] = Math.max(candy[i+1] + 1, candy[i]);
+    for (int i = l-2; i >= 0; i--) {
+      if (ratings[i]>ratings[i+1]) {
+        candys[i] = Math.max(candys[i+1]+1, candys[i]);
       }
     }
-    int ret = 0;
-    for (int c : candy) {
-      ret += c;
+    int num = 0;
+    for (int i = 0; i < l; i++) {
+      num += candys[i];
     }
-//    print(candy);
-    return ret;
+    return num;
   }
 
   public static void main(String[] args) {
