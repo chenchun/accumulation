@@ -19,55 +19,70 @@ package org.chenchun;
 
 public class MedianOfTwoSortedArrays {
   public double findMedianSortedArrays(int A[], int B[]) {
-    if (A == null || A.length == 0) {
-      return findMedian(B);
-    } else if (B == null || B.length == 0) {
-      return findMedian(A);
+    if (A == null && B == null) {
+      return 0;
     }
-    if ((A.length+B.length) % 2 == 0) {
-      return (findMedianSortedArrays(A, B, 0, A.length-1, 0, B.length-1, (A.length+B.length)/2-1) +
-          findMedianSortedArrays(A, B, 0, A.length-1, 0, B.length-1, (A.length+B.length)/2))/2.0;
-    }
-    return findMedianSortedArrays(A, B, 0, A.length-1, 0, B.length-1, (A.length+B.length)/2);
-  }
-
-  private double findMedianSortedArrays(int A[], int B[], int b1, int e1, int b2, int e2, int k) {
-    int l1 = e1 - b1 + 1, l2 = e2 - b2 + 1;
+    int l1 = A.length, l2 = B.length;
     if (l1 == 0) {
-      return B[k+b2];
+      return findMedian(B);
     }
     if (l2 == 0) {
-      return A[k+b1];
+      return findMedian(A);
     }
-    if (k == 0) {
-      return Math.min(A[b1], B[b2]);
-    }
-    int la = l1*k/(l1+l2), lb = k-la-1;
-    la += b1;
-    lb += b2;
-    if (A[la] > B[lb]) {
-      return findMedianSortedArrays(A, B, b1, la, lb+1, e2, k-(lb-b2+1));
-    } else if (A[la] == B[lb]) {
-      return A[la];
+    if ((l1+l2)%2 == 0) {
+      int mid = (l1+l2)/2;
+      return (findKth(A, B, 0, 0, mid)+findKth(A, B, 0, 0, mid+1))/2;
     } else {
-      return findMedianSortedArrays(A, B, la+1, e1, b2, lb, k-(la-b1+1));
+      return findKth(A, B, 0, 0, (l1+l2+1)/2);
     }
   }
 
-  private double findMedian(int B[]) {
-    if (B == null || B.length == 0) {
-      return 0;
+  public double findKth(int A[], int B[], int h1, int h2, int k) {
+    int t1 = A.length-1, t2 = B.length-1;
+    if (t1-h1 > t2-h2) {
+      return findKth(B, A, h2, h1, k);
+    }
+    if (t1-h1+1 <= 0) {
+      return B[h2+k-1];
+    }
+    if (k == 1) {
+      return Math.min(A[h1], B[h2]);
+    }
+    int k1 = Math.min(k/2, t1-h1+1), k2 = k-k1;
+    int m1 = k1+h1-1, m2 = k2+h2-1;
+    if (A[m1] == B[m2]) {
+      return A[m1];
+    } else if (A[m1] > B[m2]) {
+      return findKth(A, B, h1, m2+1, k1);
     } else {
-      if (B.length % 2 == 0) {
-        return (B[B.length/2-1] + B[B.length/2])/2.0;
-      } else {
-        return B[B.length/2];
-      }
+      return findKth(A, B, m1+1, h2, k2);
+    }
+  }
+
+  private double findMedian(int A[]) {
+    if (A.length % 2 == 0) {
+      int mid = A.length/2;
+      return (A[mid-1]+A[mid])/2.0;
+    } else {
+      return A[(A.length-1)/2];
     }
   }
 
   public static void main(String[] args) {
     MedianOfTwoSortedArrays m = new MedianOfTwoSortedArrays();
-    m.findMedianSortedArrays(new int[]{1, 2}, new int[]{1, 2, 3});
+    int[] A = new int[]{1,1,2,3,4,6,7};
+    int[] B = new int[]{2,2,5,6};
+//    System.out.println(m.findMedianSortedArrays(A, B));
+//    System.out.println(m.findKth(A, B, 0, 0, 1));
+//    System.out.println(m.findKth(A, B, 0, 0, 2));
+//    System.out.println(m.findKth(A, B, 0, 0, 3));
+//    System.out.println(m.findKth(A, B, 0, 0, 4));
+//    System.out.println(m.findKth(A, B, 0, 0, 5));
+//    System.out.println(m.findKth(A, B, 0, 0, 6));
+//    System.out.println(m.findKth(A, B, 0, 0, 7));
+//    System.out.println(m.findKth(A, B, 0, 0, 8));
+//    System.out.println(m.findKth(A, B, 0, 0, 9));
+//    System.out.println(m.findKth(A, B, 0, 0, 10));
+    System.out.println(m.findMedianSortedArrays(new int[]{}, new int[]{100,101}));
   }
 }
