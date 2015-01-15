@@ -26,31 +26,32 @@ public class PalindromePartitioning {
     if (s == null || s.length() == 0) {
       return ret;
     }
-    boolean[][] dp = new boolean[s.length()][s.length()];
-    for (int i = 0; i < s.length(); i++) {
+    int l = s.length();
+    boolean[][] dp = new boolean[l][l];
+    for (int i = 0; i < l; i++) {
       dp[i][i] = true;
     }
-    for (int i = 1; i < s.length(); i++) {
-      for (int j = 0; j + i < s.length(); j++) {
+    for (int i = 1; i < l; i++) {
+      for (int j = 0; i+j < l; j++) {
         if (s.charAt(j) == s.charAt(j+i) && (j+1 >= j+i-1 || dp[j+1][j+i-1])) {
           dp[j][j+i] = true;
         }
       }
     }
-    dfs(s, 0, s.length()-1, ret, new ArrayList<String>(), dp);
+    travel(dp, s, 0, new ArrayList<String>(), ret);
     return ret;
   }
 
-  private void dfs(String s, int beginIndex, int endIndex, List<List<String>> ret, List<String> list, boolean[][] dp) {
-    if (beginIndex > endIndex) {
-      ret.add(list);
-      return;
-    }
-    for (int i = beginIndex; i <= endIndex; i++) {
-      if (dp[beginIndex][i]) {
-        List<String> copy = new ArrayList<String>(list);
-        copy.add(s.substring(beginIndex, i+1));
-        dfs(s, i+1, endIndex, ret, copy, dp);
+  private void travel(boolean[][] dp, String s, int b, List<String> part, List<List<String>> ret) {
+    if (b == s.length()) {
+      ret.add(part);
+    } else {
+      for (int i = b; i < s.length(); i++) {
+        if (dp[b][i]) {
+          List<String> cloned = new ArrayList<>(part);
+          cloned.add(s.substring(b, i+1));
+          travel(dp, s, i+1, cloned, ret);
+        }
       }
     }
   }
