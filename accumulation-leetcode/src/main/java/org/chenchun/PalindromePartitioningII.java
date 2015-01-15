@@ -22,28 +22,26 @@ public class PalindromePartitioningII {
     if (s == null || s.length() <= 1) {
       return 0;
     }
-    boolean[][] dp = new boolean[s.length()][s.length()];
-    for (int i = 0; i < s.length(); i++) {
-      dp[i][i] = true;
-    }
-    int[] minCut = new int[s.length()];
-    minCut[s.length()-1] = 0;
-    for (int i = s.length()-2; i >= 0; i--) {
-      minCut[i] = 1 + minCut[i+1];
-      for (int j = 1; j+i < s.length(); j++) {
-        if ((i+1 > i+j-1 || dp[i+1][i+j-1]) && s.charAt(i) == s.charAt(j+i)) {
-          dp[i][i+j] = true;
-          minCut[i] = Math.min(i+j+1>=s.length()? 0 : minCut[i+j+1] + 1,
-              minCut[i]);
+    int l = s.length();
+    boolean[][] dp = new boolean[l][l];
+    int[] minCut = new int[l+1];
+    minCut[0] = -1;
+    minCut[1] = 0;
+    for (int i = 1; i < l; i++) {
+      minCut[i+1] = minCut[i]+1;
+      for (int j = i-1; j >= 0 ;j--) {
+        if ((i-1 <= j+1 || dp[j+1][i-1]) &&  s.charAt(j) == s.charAt(i)) {
+          dp[j][i] = true;
+          minCut[i+1] = Math.min(minCut[i+1], minCut[j]+1);
         }
       }
     }
-    return minCut[0];
+    return minCut[l];
   }
 
   public static void main(String[] args) {
     PalindromePartitioningII p = new PalindromePartitioningII();
-//    System.out.println(p.minCut("fifgbeajcacehiicccfecbfhhgfiiecdcjjffbghdidbhbdbfbfjccgbbdcjheccfbhafehieabbdfeigbiaggchaeghaijfbjhi"));
+    System.out.println(p.minCut("fifgbeajcacehiicccfecbfhhgfiiecdcjjffbghdidbhbdbfbfjccgbbdcjheccfbhafehieabbdfeigbiaggchaeghaijfbjhi"));
     System.out.println(p.minCut("bb"));
   }
 }
