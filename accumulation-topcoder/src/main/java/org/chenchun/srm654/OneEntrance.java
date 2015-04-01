@@ -43,7 +43,7 @@ public class OneEntrance {
 
   }
 
-  int count(int[] a, int[] b, int s) {
+  public int count(int[] a, int[] b, int s) {
     if (a.length == 0) {
       return 1;
     }
