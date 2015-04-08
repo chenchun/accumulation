@@ -29,28 +29,19 @@ public class BinaryTreeRightSideView {
       return list;
     }
     Queue<TreeNode> q = new LinkedList<>();
-    TreeNode levelEnd = new TreeNode(0);
     q.add(root);
-    q.add(levelEnd);
-    int mostRight = root.val;
     while (!q.isEmpty()) {
-      TreeNode n = q.poll();
-      if (n == levelEnd) {
-        list.add(mostRight);
-        if (q.isEmpty()) {
-          break;
-        } else {
-          q.add(levelEnd);
-          continue;
+      TreeNode n = null;
+      for (int i = q.size(); i > 0; i--) {
+        n = q.poll();
+        if (n.left != null) {
+          q.add(n.left);
+        }
+        if (n.right != null) {
+          q.add(n.right);
         }
       }
-      mostRight = n.val;
-      if (n.left != null) {
-        q.add(n.left);
-      }
-      if (n.right != null) {
-        q.add(n.right);
-      }
+      list.add(n.val);
     }
     return list;
   }
