@@ -48,5 +48,6 @@
     <module>accumulation-hadoop</module>
     <module>accumulation-leetcode</module>
     <module>accumulation-google</module>
+    <module>accumulation-topcoder</module>
   </modules>
 </project>
