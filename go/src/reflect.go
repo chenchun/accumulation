@@ -17,4 +17,7 @@ func main() {
 	fmt.Println(model)
 	//can't set unexported field using reflection
 //	reflect.ValueOf(&model).Elem().FieldByName("eng").SetString("x")
+	fmt.Println(reflect.TypeOf(model).Kind())
+	fmt.Println(reflect.TypeOf(model).Kind() == reflect.Struct)
+	fmt.Println(reflect.TypeOf(model).String() == "main.Model")
 }
