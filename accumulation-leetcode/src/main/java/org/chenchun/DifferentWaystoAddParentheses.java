@@ -22,7 +22,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
 
-// 1,2,3 1,3,2 2,1,3 2,3,1 3,2,1
+//TODO simple recursive method: find each operator, recursive solve left and right. just like https://leetcode.com/problems/unique-binary-search-trees/
+//TODO https://en.wikipedia.org/wiki/Catalan_numbers
 public class DifferentWaystoAddParentheses {
   public List<Integer> diffWaysToCompute(String input) {
     List<Integer> list = new ArrayList<>();
