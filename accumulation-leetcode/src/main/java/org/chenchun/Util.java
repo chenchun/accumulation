@@ -24,6 +24,13 @@ import java.util.List;
  *
  */
 public class Util {
+  public static <T> void printCollection(Collection<T> collections) {
+    for (T t : collections) {
+        System.out.print(t);
+        System.out.print(" ");
+    }
+    System.out.println();
+  }
   public static <T> void print(Collection<List<T>> collections) {
     for (Collection<T> c : collections) {
       for (T t : c) {
