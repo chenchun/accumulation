@@ -25,6 +25,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * TODO https://en.wikipedia.org/wiki/Radix_tree use radix tree to optimize for small sets (especially if the strings are long) and for sets of strings that share long prefixes
+ */
 public class PalindromePairs {
   public List<List<Integer>> palindromePairs(String[] words) {
     //empty string
