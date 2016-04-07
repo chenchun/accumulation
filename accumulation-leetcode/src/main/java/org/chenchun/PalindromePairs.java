@@ -37,25 +37,15 @@ public class PalindromePairs {
         if (isPalindrome(tailStr)) {
           String reverseHeadStr = new StringBuilder(headStr).reverse().toString();
           List<Integer> indexs = radix.search(reverseHeadStr);
-          if (indexs != null) {
-            for (Integer index : indexs) {
-              if (index == i) {
-                continue;
-              }
-              list.add(Arrays.asList(i, index));
-            }
+          if (indexs != null && indexs.get(0) != i) {
+            list.add(Arrays.asList(i, indexs.get(0)));
           }
         }
         if (j != 0 && isPalindrome(headStr)) {
           String reverseTailStr = new StringBuilder(tailStr).reverse().toString();
           List<Integer> indexs = radix.search(reverseTailStr);
-          if (indexs != null) {
-            for (Integer index : indexs) {
-              if (index == i) {
-                continue;
-              }
-              list.add(Arrays.asList(index, i));
-            }
+          if (indexs != null && indexs.get(0) != i) {
+            list.add(Arrays.asList(indexs.get(0), i));
           }
         }
       }
