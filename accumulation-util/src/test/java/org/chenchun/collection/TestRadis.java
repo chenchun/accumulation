@@ -85,4 +85,20 @@ public class TestRadis {
     Assert.assertEquals(3, radix.longestCommonPrefix("abcde", "abc"));
     Assert.assertEquals(3, radix.longestCommonPrefix("abc", "abcde"));
   }
+
+  @Test
+  public void testSortEdge() {
+    Radix<Integer> radix = new Radix<>();
+    String[] arr = new String[]{"bb","bababab","baab","","bbaa","baa","b"};
+    for (int i = 0; i < arr.length; i++) {
+      radix.insert(arr[i], 0);
+    }
+    Assert.assertTrue(radix.contains("bb"));
+    Assert.assertTrue(radix.contains("bababab"));
+    Assert.assertTrue(radix.contains("baab"));
+    Assert.assertTrue(radix.contains(""));
+    Assert.assertTrue(radix.contains("bbaa"));
+    Assert.assertTrue(radix.contains("baa"));
+    Assert.assertTrue(radix.contains("b"));
+  }
 }
