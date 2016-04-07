@@ -18,9 +18,9 @@
 package org.chenchun.collection;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Radix<T> {
   private Node<T> root;
@@ -33,8 +33,7 @@ public class Radix<T> {
 
   private static class Node<T> {
     String prefix;
-    //Edges to children
-    List<Edge<T>> edges;
+    Map<Character, Node<T>> children;
 
     LeafData<T> leafData;
 
@@ -50,59 +49,23 @@ public class Radix<T> {
      */
     public Node(String key, T t) {
       this.prefix = key;
-      this.edges = new ArrayList<>();
+      this.children = new HashMap<>();
       this.leafData = new LeafData<T>();
       if (t != null) {
         this.leafData.add(t);
       }
     }
 
-    public int getEdgeIndex(Character i) {
-      return binarySearch(this.edges, i);
+    private Node<T> getChild(Character i) {
+      return this.children.get(i);
     }
 
-    private Edge<T> getEdge(Character i) {
-      int index = getEdgeIndex(i);
-      if (index == -1) {
-        return null;
-      }
-      return this.edges.get(index);
+    private void addChild(Node<T> child) {
+      this.children.put(child.prefix.charAt(0), child);
     }
 
-    private int binarySearch(List<Edge<T>> list, Character i) {
-      int begin = 0, end = list.size()-1;
-      while (begin <= end) {
-        int mid = (begin+end)/2;
-        int compare = list.get(mid).label - i;
-        if (compare < 0) {
-          begin = mid+1;
-        } else if (compare == 0) {
-          return mid;
-        } else {
-          end = mid-1;
-        }
-      }
-      return -1;
-    }
-
-    private void addEdge(Edge<T> edge) {
-      this.edges.add(edge);
-      Collections.sort(this.edges, new Comparator<Edge<T>>(){
-        @Override
-        public int compare(Edge<T> o1, Edge<T> o2) {
-          return o1.label - o2.label;
-        }
-      });
-    }
-  }
-
-  private static class Edge<T> {
-    Character label;
-    //Child node
-    Node<T> node;
-    public Edge(Node<T> node, Character label) {
-      this.node = node;
-      this.label = label;
+    private void replaceChild(Node<T> child) {
+      this.children.put(child.prefix.charAt(0), child);
     }
   }
 
@@ -131,13 +94,11 @@ public class Radix<T> {
         return;
       }
       Node<T> parent = node;
-      int index = node.getEdgeIndex(k.charAt(0));
-      if (index == -1) {
-        parent.addEdge(new Edge<T>(new Node<T>(k, t), k.charAt(0)));
+      node = node.getChild(k.charAt(0));
+      if (node == null) {
+        parent.addChild(new Node<T>(k, t));
         return;
       }
-      Edge<T> edge = node.edges.get(index);
-      node = edge.node;
       int commonLen = longestCommonPrefix(node.prefix, k);
       if (commonLen == node.prefix.length()) {
         if (k.length() == node.prefix.length()) {
@@ -156,9 +117,9 @@ public class Radix<T> {
       //
       // insert child node between parent and node
       Node<T> child = new Node<T>(k.substring(0, commonLen), null);
-      parent.edges.set(index, new Edge<T>(child, k.charAt(0)));
+      parent.replaceChild(child);
       node.prefix = node.prefix.substring(commonLen);
-      child.addEdge(new Edge<T>(node, node.prefix.charAt(0)));
+      child.addChild(node);
       k = k.substring(commonLen);
       if (k.length() == 0) {
         // if k is empty now, add a leaf at this node
@@ -166,7 +127,7 @@ public class Radix<T> {
         return;
       }
       // if k is not empty, add a node
-      child.addEdge(new Edge<T>(new Node<T>(k, t), k.charAt(0)));
+      child.addChild(new Node<T>(k, t));
       return;
     }
   }
@@ -185,11 +146,11 @@ public class Radix<T> {
         }
         return null;
       }
-      Edge<T> edge = node.getEdge(k.charAt(0));
-      if (edge == null) {
+      Node<T> child = node.getChild(k.charAt(0));
+      if (child == null) {
         return null;
       }
-      node = edge.node;
+      node = child;
       if (k.startsWith(node.prefix)) {
         k = k.substring(node.prefix.length());
         continue;
