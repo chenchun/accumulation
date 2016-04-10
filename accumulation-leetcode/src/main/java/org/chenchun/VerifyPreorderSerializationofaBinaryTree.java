@@ -35,9 +35,6 @@ public class VerifyPreorderSerializationofaBinaryTree {
             break;
           } else {
             stack.pop();
-            if (stack.isEmpty()) {
-              return false;
-            }
             stack.pop();
           }
         }
